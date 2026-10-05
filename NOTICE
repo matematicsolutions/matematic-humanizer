@@ -1,0 +1,20 @@
+matematic-humanizer - NOTICE
+
+The three skills in this plugin are adaptations of the open-source "humanizer" skill
+by Siqi Chen (https://github.com/blader/humanizer), MIT licence, Copyright (c) 2025
+Siqi Chen. The upstream licence text ships with skills/humanizer-en/LICENSE and
+skills/humanizer-pt/LICENSE and remains in force for the adapted logic. Upstream in
+turn draws on Wikipedia's "Signs of AI writing" guide (WikiProject AI Cleanup).
+
+The documentation-mode patterns in humanizer-pl are pattern-only adaptations of the
+prose checklist in deepseek-ai/deepseek-harness (MIT); no text was copied.
+
+The "statistical signatures" sections draw on W. Wołoszyk, M. Domaszk, "Detecting
+AI-Generated Content: A hybrid linguistic approach", MultiLingual, September 2025.
+
+Polish, Portuguese and English editions, word lists and typography rules:
+Wieslaw Mazur / MateMatic Solutions, MIT licence (see LICENSE).
+
+Canonical sources: humanizer-en lives in matematicsolutions/awesome-matematic-skills-en,
+humanizer-pl in matematicsolutions/awesome-matematic-skills-pl; this repository is the
+home of humanizer-pt. scripts/canon_check.py keeps the copies identical.

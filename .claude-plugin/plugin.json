@@ -1,0 +1,9 @@
+{
+  "name": "matematic-humanizer",
+  "description": "Strips AI-writing patterns from English, Polish and Portuguese text: inflated wording, filler, the rule of three, chatbot artefacts, calques, and flat, uniform sentence rhythm. Three language editions with native word lists and typography. Rewrites wording and keeps the facts. No connectors and no network calls of its own.",
+  "version": "1.0.0",
+  "author": { "name": "Wieslaw Mazur / MateMatic Solutions" },
+  "homepage": "https://matematicsolutions.com/en/boutique/skills#skill-humanizer-en",
+  "license": "MIT",
+  "keywords": ["writing", "editing", "ai-slop", "humanizer", "polish", "portuguese", "multilingual"]
+}

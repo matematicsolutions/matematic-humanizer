@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-plugin-marketplace.json",
+  "name": "matematic-humanizer",
+  "description": "One plugin: humanizer in English, Polish and Portuguese.",
+  "owner": {
+    "name": "Wieslaw Mazur / MateMatic Solutions",
+    "url": "https://matematicsolutions.com"
+  },
+  "plugins": [
+    {
+      "name": "matematic-humanizer",
+      "description": "Strips AI-writing patterns from English, Polish and Portuguese text. Three language editions with native word lists and typography.",
+      "version": "1.0.0",
+      "author": { "name": "Wieslaw Mazur / MateMatic Solutions" },
+      "license": "MIT",
+      "source": "./"
+    }
+  ]
+}
