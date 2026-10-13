@@ -1,15 +1,16 @@
 ---
 name: humanizer-pl
-version: 1.4.1
+version: 1.5.0
 description: |
   Usuwa wzorce AI-slop z polskiego tekstu - sprawia, ze czyta sie naturalnie i ludzko.
   Polska adaptacja blader/humanizer (MIT). Uzywaj do edycji/przegladu polskich tresci:
-  artykuly, aktualnosci, posty LinkedIn, scenariusze, copy stron, dokumentacja.
+  artykuly, aktualnosci, posty LinkedIn, maile, scenariusze, copy stron, dokumentacja.
   Wykrywa: inflacje znaczeniowa, slop-slownictwo PL, imieslowy pozornej glebi,
   vague attributions, naduzycie em-dash, regule trojki, hedging, artefakty czatbota,
-  kalki anglicyzmow, pisownie sprzed reformy RJP 2026 oraz sygnatury statystyczne
-  mierzone przez detektory AI (burstiness, gestosc i roznorodnosc leksykalna,
-  dystrybucja czesci mowy, zakres emocji).
+  kalki anglicyzmow, pisownie sprzed reformy RJP 2026, monotonny rytm i skladnie
+  rzeczownikowa. Minimalna ingerencja: zmienia slowa, nie tresc - bramka po
+  przepisaniu (skrypt stdlib) pilnuje dat, kwot, przepisow, sygnatur, cytatow, sily
+  normy, pewnosci i terminow prawnych. Umowy i pisma: tryb rejestru prawniczego.
 license: MIT
 attribution:
   - source: blader/humanizer
@@ -52,12 +53,38 @@ Kilka regul ponizej to STYL DOMOWY, nie prawda o polszczyznie: jeden rodzaj kres
 
 ## Twoje zadanie
 
-1. **Wykryj wzorce AI** - przeskanuj tekst wedlug listy ponizej.
-2. **Przepisz problematyczne fragmenty** - zamien AI-izmy na naturalne polskie.
-3. **Zachowaj sens** - rdzen przekazu nietkniety.
-4. **Zachowaj glos** - dopasuj ton autora; bez wskazowek trzymaj sie stylu domowego.
-5. **Dodaj duszę** - nie tylko usun zle wzorce, wstrzyknij charakter.
-6. **Pass koncowy** - zapytaj: "Co tu wciaz zdradza AI?" Odpowiedz krotko, potem popraw resztki.
+1. **Inwentarz przed** - zanim zmienisz slowo, wypisz, co tekst niesie (sekcja "Czego nie wolno zmienic").
+2. **Rozpoznaj, co zostaje** - dobre zdania, glos autora, terminy. Nie wszystko, co pasuje do wzorca, jest bledem.
+3. **Wykryj wzorce AI** - przeskanuj tekst wedlug listy ponizej. Reaguj na skupienie i powtorzenie, nie na pojedynczy sygnal.
+4. **Przepisz minimalnie** - tylko fragmenty, ktore naprawde zgrzytaja. Najmniejsza zmiana, ktora usuwa problem.
+5. **Zachowaj glos** - dopasuj ton autora; bez wskazowek trzymaj sie stylu domowego.
+6. **Audyt po** - porownaj wynik z inwentarzem (sekcja "Bramka po przepisaniu"). BLOKADA = tekst nie jest gotowy.
+
+**Brak zmiany to poprawny wynik.** Gdy tekst jest dobry, oddaj go bez zmian i powiedz to wprost. Zmiana dla samej zmiany niczego nie naprawia, a kazda ingerencja to okazja do zmiany tresci.
+
+## Czego nie wolno zmienic
+
+Redakcja zmienia slowa i uklad, nigdy tresci. Przed przepisaniem wypisz krotko:
+
+- **Wartosci:** daty, kwoty, procenty, terminy w dniach, numery przepisow, sygnatury, identyfikatory, nazwy osob, firm i instytucji, cytaty doslowne. Zostaja co do znaku (wolno zmienic zapis daty, nie date).
+- **Sila normy:** kto musi, kto moze, komu nie wolno, co jest zaleceniem. "Moze" nie staje sie "musi", "nie wolno" nie staje sie "nie powinien".
+- **Pewnosc:** co jest pewne, a co wstepne albo prawdopodobne. "Prawdopodobnie", "wstepnie", "jeszcze nie wiadomo" to tresc, nie wata - zostaja. Wolno przerzedzic pietrowe asekuranctwo (#24), nie wolno zrobic z przypuszczenia faktu.
+- **Powody i warunki:** "bo", "jesli", "chyba ze", "pod warunkiem" - przyczyna i warunek przezywaja przepisanie.
+- **Kto co robi:** podmiot dzialania i jego zobowiazanie. "Przyznajemy" nie staje sie "przepraszamy", "zweryfikujemy" nie staje sie "zweryfikowalismy". Tego, co niejasne, nie robisz jeszcze mniej jasnym.
+- **Terminy prawne i zdefiniowane:** nie maja synonimow. Zadatek to nie zaliczka, odstapienie to nie wypowiedzenie, rekojmia to nie gwarancja, niewaznosc to nie bezskutecznosc, kara umowna to nie odszkodowanie. Termin zdefiniowany w tekscie ("dalej: Zamawiajacy") wraca w tej samej postaci, takze gdy sie powtarza. Zwroty ustawowe ("istotne zagadnienie prawne", "wszechstronne rozwazenie") to nie slop, nawet gdy brzmia jak lista #7.
+
+**Brakujacy fakt to znacznik, nie zgadywanie.** Gdy zdanie po poprawce wymaga konkretu, ktorego tekst nie podaje (data, zrodlo, liczba), wstaw `[do uzupelnienia: ...]` albo zostaw zdanie ogolne. Niewypelnionych pol (`[kwota]`, `[data podpisania]`) nie wypelniasz wymyslona wartoscia.
+
+## Rejestr prawniczy - kiedy NIE przepisywac
+
+Umowa, regulamin, pismo procesowe, opinia prawna, uzasadnienie i projekt przepisu maja wlasne reguly, ktore wzorce prozy psuja:
+
+- terminy zdefiniowane powtarzaja sie celowo - to nie jest powtorzenie do usuniecia (#11 nie dotyczy);
+- strona bierna w opisie stanu prawnego jest poprawna ("umowe uwaza sie za zawarta") - #13 nie dotyczy;
+- tiret jako jednostka redakcyjna wyliczenia to nie myslnik interpunkcyjny - #14 go nie zmienia;
+- konstrukcje ustawowe i formuly procesowe zostaja doslownie, nawet gdy sa ciezkie.
+
+W tym rejestrze usuwasz tylko artefakty czatbota (#20-#22), oczywisty filler (#23), typografie (#15, #17) i pisownie (#43). Reszte WSKAZUJESZ jako uwagi, nie przepisujesz. Do pelnej redakcji umow i pism uzyj narzedzia do stylu prawniczego, jesli je masz.
 
 ## Miejsce w procesie
 
@@ -112,6 +139,7 @@ Jezeli dostajesz probke pisania (wczesniejsze teksty autora) - przeanalizuj ja p
 **Slowa wysokiej czestotliwosci AI:** kluczowy, istotny, zasadniczy, niezwykle, wszechstronny, kompleksowy, innowacyjny, holistyczny, synergia, fascynujacy, intrygujacy, dynamicznie zmieniajacy sie, w dzisiejszych czasach, w dobie, nieustannie, zarowno... jak i, warto podkreslic/zauwazyc, nalezy zaznaczyc, swiat, w ktorym, era, krajobraz (przen.), dedykowany (kalka - czesto "przeznaczony").
 **Zle:** W dzisiejszym dynamicznie zmieniajacym sie swiecie kompleksowe i innowacyjne podejscie odgrywa kluczowa role.
 **Dobrze:** Nowe podejscie skraca proces z trzech dni do jednego.
+**Uwaga:** te slowa pisza tez ludzie, w tym sedziowie i ustawodawca. Jedno "istotny" w akapicie to nie problem. Reaguj, gdy kilka roznych slow z listy skupia sie w jednym miejscu albo gdy slowo nic nie znaczy w zdaniu. W krotkim tekscie (post, komentarz) licz rozne rodzaje wzorcow, nie wystapienia jednego slowa.
 
 ### 8. Unikanie "jest"/"sa" (omijanie kopuly)
 **Slowa-alarmy:** stanowi, pelni funkcje, jawi sie jako, prezentuje sie jako, oferuje, posiada (zamiast "ma").
@@ -137,15 +165,15 @@ Jezeli dostajesz probke pisania (wczesniejsze teksty autora) - przeanalizuj ja p
 **Zle:** Od narodzin gwiazd po taniec ciemnej materii, od Wielkiego Wybuchu po kosmiczna siec.
 **Dobrze:** Ksiazka omawia Wielki Wybuch, powstawanie gwiazd i teorie ciemnej materii.
 
-### 13. Strona bierna i zdania bez podmiotu
-**Problem:** AI ukrywa sprawce: "Zostalo to zrobione automatycznie", "Nie jest wymagana konfiguracja".
+### 13. Strona bierna, ktora ukrywa sprawce
+**Problem:** AI ukrywa sprawce, ktorego czytelnik potrzebuje: "Zostalo to zrobione automatycznie", "Nie jest wymagana konfiguracja". Zmieniaj tylko wtedy, gdy brak podmiotu utrudnia zrozumienie, kto dziala. Strona bierna sama w sobie nie jest bledem, a w opisie stanu prawnego bywa jedyna poprawna forma.
 **Zle:** Wyniki sa zachowywane automatycznie. Nie jest wymagany plik konfiguracyjny.
 **Dobrze:** System sam zapisuje wyniki. Nie potrzebujesz pliku konfiguracyjnego.
 
 ## WZORCE STYLU I TYPOGRAFII
 
 ### 14. Naduzycie em-dash
-**Problem:** AI naduzywa em-dash (—) i poltrupelka (–). Styl domowy: we wszystkich tekstach uzywaj WYLACZNIE lacznika "-", NIGDY "—" ani "–" (wlasny przewodnik stylu autora moze to zmienic). Wiekszosc przypadkow przepisz na przecinek, kropke lub nawias.
+**Problem:** AI naduzywa em-dash (—) i poltrupelka (–), ale ludzie tez je stawiaja - pojedyncza kreska nie jest sygnalem AI, tylko sprawa stylu. Styl domowy: we wszystkich tekstach uzywaj WYLACZNIE lacznika "-", NIGDY "—" ani "–" (wlasny przewodnik stylu autora moze to zmienic). Wiekszosc przypadkow przepisz na przecinek, kropke lub nawias.
 **Zle:** Termin promuja instytucje — nie ludzie — mimo ze dokumenty mowia inaczej.
 **Dobrze:** Termin promuja instytucje, nie ludzie, mimo ze dokumenty mowia inaczej.
 
@@ -224,30 +252,30 @@ Jezeli dostajesz probke pisania (wczesniejsze teksty autora) - przeanalizuj ja p
 
 ---
 
-## SYGNATURY STATYSTYCZNE (czego szukaja detektory AI)
+## RYTM I SKLADNIA
 
-Detektory tekstu AI nie czytaja "sensu" - mierza wymierne cechy lingwistyczne. Hybrydowa metodologia Woloszyka i Domaszk ("Detecting AI-Generated Content", MultiLingual, IX 2025; na bazie Georgiou 2024, Schaaff i in. 2024, Fraser 2024, Muñoz-Ortiz i in. 2024) wskazuje, ktore parametry najpewniej zdradzaja AI - z najwyzsza waga dla leksyki i morfologii. To dokladnie te dzwignie, ktore poprawia naturalna proza. **Brand-safety:** nie chodzi o "omijanie detektora", tylko o to, ze ludzki tekst ma te cechy z natury - poprawiajac je, poprawiasz jakosc.
+Ta sekcja dotyczy calego tekstu, nie pojedynczych slow. To reguly redakcyjne, nie sposob na detektory: ten skill nie obiecuje "przejscia" zadnego testu i nie to jest jego celem. Nie dodawaj sztucznego szumu: podrzuconych literowek, wymuszonego slangu, celowo zlej interpunkcji.
 
-### 30. Rozrzut dlugosci zdan (burstiness)
-**Problem:** czlowiek miesza zdania bardzo krotkie z dlugimi i wielokrotnie zlozonymi (wyzsza "burstiness" i perplexity: ~0,61 vs ~0,38 u AI). AI trzyma jednostajny, przewidywalny rytm.
-**Reguła:** po dlugim, zlozonym zdaniu wstaw krotkie, urwane. Nie wyrownuj akapitu do jednej dlugosci. To mocniejsza wersja reguly trojki (#10) - dotyczy calego rytmu, nie tylko wyliczen.
+### 30. Monotonny rytm zdan
+**Problem:** tekst modelu czesto ma akapit zdan tej samej dlugosci i budowy.
+**Reguła:** nie wymuszaj zmiennosci dlugosci zdan. Rytm wynika z tresci: krotkie zdanie tam, gdzie mysl jest krotka, dlugie tam, gdzie trzeba utrzymac warunek albo wyjatek. Jednostajny akapit to sygnal, zeby przeczytac go na glos, a nie polecenie, zeby ciac zdania na sile.
 
 ### 31. Czasowniki i przyslowki zamiast rzeczownikow i przymiotnikow
-**Problem:** tekst AI jest rzeczownikowy i opisowy, ludzki - czasownikowy i dynamiczny (czlowiek uzywa ~13% wiecej czasownikow i ~28% wiecej przyslowkow; AI ~21% wiecej rzeczownikow i ~21% wiecej przymiotnikow). To jedna z najpewniejszych sygnatur (morfologia, 20% wagi).
+**Problem:** tekst modelu bywa rzeczownikowy i opisowy, ludzki - czasownikowy i dynamiczny.
 **Reguła:** tnij nominalizacje - "dokonanie analizy" -> "przeanalizowac", "wdrozenie rozwiazania" -> "wdrozyc", "w celu realizacji" -> "zeby zrobic". Skracaj lancuchy przymiotnikow przed rzeczownikiem.
 **Zle:** Przeprowadzenie kompleksowej weryfikacji dokumentacji jest istotnym elementem procesu.
 **Dobrze:** Najpierw dokladnie sprawdzamy dokumenty. To one decyduja o reszcie.
 
 ### 32. Gestosc i roznorodnosc leksykalna
-**Problem:** AI upycha slowa tresciowe kosztem naturalnego "rusztowania" zdania (wyzszy content-to-function ratio: ~1,37 vs ~0,98 u czlowieka) i kreci sie wokol wezszego slownictwa (nizsza roznorodnosc: type-token ~45 vs ~55 u czlowieka). Leksyka ma najwyzsza wage detekcji (25%).
+**Problem:** model upycha slowa tresciowe kosztem naturalnego "rusztowania" zdania albo kreci sie wokol waskiego slownictwa.
 **Reguła:** nie wycinaj wszystkich slow funkcyjnych w pogoni za "gestoscia" - zdanie ma oddychac. Nie powtarzaj w kolko tego samego rzeczownika-klucza, ale tez nie podmieniaj go mechanicznie na synonimy (to wpada w #11). Pisz jak czlowiek, ktory zna temat i mowi o nim swobodnie.
 
 ### 33. Zakres emocji - nie tylko pozytywnie
-**Problem:** AI ciagnie do tonu rownego i pozytywnego; ludzie wyrazaja szerszy zakres, w tym sceptycyzm, irytacje i watpliwosc (Muñoz-Ortiz i in. 2024).
-**Reguła:** dopusc krytyke i chlodny dystans. "Tu widze ryzyko", "to mnie nie przekonuje" brzmi ludzko; "to ekscytujacy krok naprzod" brzmi jak AI. Laczy sie z #25 (generyczne pozytywne zakonczenia), ale dotyczy tonu calego tekstu.
+**Problem:** AI ciagnie do tonu rownego i pozytywnego; ludzie wyrazaja szerszy zakres, w tym sceptycyzm, irytacje i watpliwosc.
+**Reguła:** dopusc krytyke i chlodny dystans, jesli autor ja wyrazil - nie dopisuj opinii, ktorej w tekscie nie ma. "Tu widze ryzyko", "to mnie nie przekonuje" brzmi ludzko; "to ekscytujacy krok naprzod" brzmi jak AI. Laczy sie z #25 (generyczne pozytywne zakonczenia), ale dotyczy tonu calego tekstu.
 
 ### 34. Mechaniczne przejscia miedzy mysliami
-**Problem:** AI laczy akapity formulkowymi spojnikami zamiast logika tresci. "Warto zauwazyc, ze" wystepuje w tekstach AI ~4,6x czesciej niz u ludzi.
+**Problem:** AI laczy akapity formulkowymi spojnikami zamiast logika tresci.
 **Slowa-alarmy (przejscia):** Co wiecej, Ponadto, Dodatkowo, W zwiazku z tym, Podsumowujac, Reasumujac (jako automatyczna klamra akapitu).
 **Reguła:** usuwaj przejscia-wypelniacze; niech nastepna mysl wynika z poprzedniej trescia, nie etykieta. Pojedyncze "warto zauwazyc" lapie tez #7 - tu chodzi o nawyk klamrowania kazdego akapitu.
 
@@ -331,31 +359,49 @@ Unikanie wzorcow AI to polowa roboty. Sterylny, bezgłosowy tekst zdradza AI tak
 
 **Sygnaly tekstu bez duszy:** kazde zdanie tej samej dlugosci; zero opinii; brak niepewnosci czy mieszanych uczuc; brak pierwszej osoby tam, gdzie pasuje; zero humoru i charakteru; czyta sie jak komunikat prasowy.
 
-**Jak dodac glos (styl domowy, gdy autor nie dal wlasnego):** rzeczowa precyzja zamiast entuzjazmu; spokojny ton z subtelna ironia intelektualna; rytm zroznicowany - krotkie zdanie, potem dluzsze; konkret zamiast ogolnika; "ja"/"my" gdzie szczere; przyznanie zlozonosci zamiast falszywej pewnosci.
+**Jak dodac glos (styl domowy, gdy autor nie dal wlasnego):** rzeczowa precyzja zamiast entuzjazmu; spokojny ton z subtelna ironia intelektualna; konkret zamiast ogolnika; "ja"/"my" gdzie szczere; przyznanie zlozonosci zamiast falszywej pewnosci. Glos buduje sie z tego, co autor napisal - nie dopisuj opinii, przykladow ani faktow, ktorych w tekscie nie bylo.
+
+## Bramka po przepisaniu
+
+Po redakcji porownaj oryginal z wersja finalna. Jesli mozesz uruchamiac polecenia, zapisz oba teksty do plikow i uruchom skrypt ze skilla (stdlib, bez sieci):
+
+```
+python scripts/audyt_po_przepisaniu.py przed.txt po.txt [--limit 0.3] [--chronione "termin1;termin2"]
+```
+
+Skrypt sprawdza wartosci (przepisy, daty, sygnatury, liczby i kwoty, cytaty, pola do wypelnienia), profil normy (obowiazek, zakaz, pozwolenie, zalecenie), pewnosc, slady czatu, terminy prawne i zdefiniowane oraz limit skrocenia. Wynik: OK / UWAGI / BLOKADA z lista wszystkich kontroli, takze zdanych. Limit skrocenia (domyslnie 30% slow) to sufit, nie cel.
+
+- **BLOKADA** - nie oddajesz tekstu jako gotowego. Popraw wersje finalna i uruchom ponownie albo nazwij w raporcie, dlaczego zmiana jest zamierzona (np. autor sam poprosil o usuniecie kwoty).
+- **UWAGI** - sprawdz wskazane miejsca i napisz w raporcie, co z nimi zrobiles.
+- Bez mozliwosci uruchomienia skryptu zrob ten sam audyt recznie: przejdz inwentarz punkt po punkcie i zaznacz, czy kazda pozycja przetrwala.
+
+Skrypt nie widzi wszystkiego (np. nazw osob ani zmiany "kto co robi") - te punkty inwentarza sprawdzasz zawsze sam.
 
 ## Proces
 
-1. Przeczytaj tekst uwaznie.
-2. Zidentyfikuj wszystkie wystapienia wzorcow powyzej.
-3. Przepisz problematyczne fragmenty.
-4. Upewnij sie, ze tekst: brzmi naturalnie czytany na glos; ma zroznicowane zdania; uzywa konkretow; uzywa prostych konstrukcji (jest/sa/ma); ma polska typografie („..." i lacznik "-"); ma pisownie zgodna z zasadami od 2026 r. (#43).
-5. Przedstaw draft.
-6. Zapytaj: "Co tu wciaz zdradza AI?" - odpowiedz krotko.
-7. Przedstaw wersje finalna po poprawkach.
+1. Przeczytaj tekst uwaznie. Ustal gatunek: proza, dokumentacja (#35-#42) czy rejestr prawniczy.
+2. Spisz inwentarz: wartosci, sila normy, pewnosc, powody i warunki, kto co robi, terminy.
+3. Zidentyfikuj wzorce i zdecyduj, ktore naprawde wymagaja zmiany. Pojedynczy sygnal zwykle zostaje.
+4. Przepisz tylko te fragmenty, najmniejsza zmiana, jaka wystarcza.
+5. Upewnij sie, ze tekst: brzmi naturalnie czytany na glos; uzywa konkretow; uzywa prostych konstrukcji (jest/sa/ma); ma polska typografie („..." i lacznik "-"); ma pisownie zgodna z zasadami od 2026 r. (#43).
+6. Zapytaj: "Co tu wciaz zdradza AI?" - odpowiedz krotko i popraw resztki.
+7. Bramka po przepisaniu. BLOKADA wraca do kroku 4.
 
 ## Format wyjscia
 
-1. Draft po przepisaniu
-2. "Co tu wciaz zdradza AI?" (krotkie punkty)
-3. Wersja finalna
-4. Krotkie podsumowanie zmian
+1. Wersja finalna (albo tekst bez zmian z jednym zdaniem, ze nie wymagal redakcji)
+2. Zmienione: krotkie punkty, co i dlaczego
+3. Znalezione, swiadomie niezmienione: wzorce, ktore zostaly, i powod (termin prawny, pojedynczy sygnal, glos autora)
+4. Wynik bramki po przepisaniu (status i kontrole, ktore nie byly OK) albo wynik audytu recznego
+5. Znaczniki `[do uzupelnienia: ...]` i niewypelnione pola, ktore musi uzupelnic czlowiek
 
 ## Atrybucja
 
-Polska adaptacja blader/humanizer (https://github.com/blader/humanizer, MIT). Oryginal bazuje na Wikipedia "Signs of AI writing" (WikiProject AI Cleanup). Ta wersja: polskie listy slow, polska typografia, wzorzec #29 (kalki), sygnatury statystyczne (#30-#34), tryb dokumentacja (#35-#42), wzorzec #43 (pisownia RJP 2026). Autor adaptacji: Wieslaw Mazur / MateMatic Solutions. Sekcja sygnatur statystycznych oparta na: W. Woloszyk, M. Domaszk, "Detecting AI-Generated Content: A hybrid linguistic approach", MultiLingual, wrzesien 2025 (https://multilingual.com/magazine/september-2025/detecting-ai-generated-content/).
+Polska adaptacja blader/humanizer (https://github.com/blader/humanizer, MIT). Oryginal bazuje na Wikipedia "Signs of AI writing" (WikiProject AI Cleanup). Ta wersja: polskie listy slow, polska typografia, wzorzec #29 (kalki), rytm i skladnia (#30-#34), tryb dokumentacja (#35-#42), wzorzec #43 (pisownia RJP 2026), inwentarz i bramka po przepisaniu, tryb rejestru prawniczego. Autor adaptacji: Wieslaw Mazur / MateMatic Solutions. Kategorie z sekcji rytmu i skladni (#30-#34) wyrosly z przegladu: W. Woloszyk, M. Domaszk, "Detecting AI-Generated Content: A hybrid linguistic approach", MultiLingual, wrzesien 2025 (https://multilingual.com/magazine/september-2025/detecting-ai-generated-content/); od v1.5.0 jako reguly redakcyjne, bez liczb z detekcji.
 
 ## Dziennik szlifu
 
+- v1.5.0 (2026-10-13) - minimalna ingerencja: inwentarz przed przepisaniem (wartosci, sila normy, pewnosc, powody, kto co robi, terminy), "brak zmiany to poprawny wynik", sekcja "czego nie wolno zmienic", tryb rejestru prawniczego. Nowa bramka `scripts/audyt_po_przepisaniu.py` (stdlib, testy w `tests/`): wartosci wrazliwe, profil deontyczny, pewnosc, slady czatu, terminy chronione i zdefiniowane, limit skrocenia; trojstan OK/UWAGI/BLOKADA. #7, #13 i #14 reaguja na skupienie, nie na pojedynczy sygnal. #30-#34 bez liczb i obietnic o detektorach, bez wymuszania rytmu. Format wyjscia z sekcja "znalezione, swiadomie niezmienione".
 - v1.4.1 (2026-10-05) - z `allowed-tools` usuniete Write i Edit: skill nie zatwierdza z gory zapisu plikow, Claude pyta uzytkownika o zgode przy kazdej zmianie pliku (uwaga skanera katalogu Claude ALLOWED_TOOLS_UNSCOPED_WRITE).
 - v1.4.0 (2026-10-05) - neutralizacja pod publikacje poza MateMatic: reguly domowe (jedna kreska, glos) wydzielone jako STYL DOMOWY z pierwszenstwem przewodnika stylu autora; usuniete odwolania do wewnetrznych skilli i notatek. Wzorce slop bez zmian.
 - v1.3.0 (2026-09-16) - dodany wzorzec #43: pisownia sprzed reformy RJP 2026 ("nie" z imieslowem i przymiotnikiem, przedrostki, wielkie litery) z wyjatkami, w ktorych rozdzielnie zostaje. Pelna sciaga i skaner kandydatow sa w marko-pl-content.

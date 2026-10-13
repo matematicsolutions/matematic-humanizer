@@ -6,7 +6,7 @@ artefacts. This plugin removes them and leaves plain, precise prose, in three la
 | Skill | Language | Language-specific layer |
 |---|---|---|
 | `humanizer-en` | English | English word lists and typography |
-| `humanizer-pl` | Polish | Polish slop vocabulary, calques from English, Polish typography, 2026 spelling reform |
+| `humanizer-pl` | Polish | Polish slop vocabulary, calques from English, Polish typography, 2026 spelling reform, legal-register mode, post-edit fact check |
 | `humanizer-pt` | Portuguese (pt-BR default, pt-PT on request) | gerundism, pronominal "mesmo", calques, variant mixing |
 
 All three share one taxonomy, built on Wikipedia's "Signs of AI writing". Claude picks the
@@ -43,6 +43,12 @@ Single-skill zips, no plugin needed, are on the MateMatic Boutique:
 The skills have no connectors and make no network calls of their own. They work on the
 text in your conversation, which Claude processes the same way as any other message you
 send it.
+
+The Polish edition ships one local check, `scripts/audyt_po_przepisaniu.py` (Python standard
+library only). It compares the text before and after editing and reports whether dates,
+amounts, legal references, the force of obligations and legal terms survived. It reads the
+two files you point it at and nothing else, writes nothing and opens no connections. Claude
+Code asks before running it; where scripts cannot run, the skill does the same check by hand.
 
 ## Licence
 
