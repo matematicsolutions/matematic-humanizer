@@ -158,6 +158,18 @@ class SladyNarzedzia(unittest.TestCase):
         self.assertEqual(kontrola(w, "slady_narzedzia")["status"], "BLOKADA")
         self.assertEqual(kontrola(w, "wartosci_wrazliwe")["status"], "OK")
 
+    def test_znacznik_do_uzupelnienia_blokuje_gotowosc_ale_nie_jest_zmyslona_wartoscia(self):
+        przed = "Adopcja wzrosla w calej branzy."
+        po = "Adopcja wzrosla [do uzupelnienia: zrodlo twierdzenia, ze adopcja wzrosla w calej branzy]."
+        w = A.audyt(przed, po)
+        self.assertEqual(kontrola(w, "slady_narzedzia")["status"], "BLOKADA")
+        self.assertEqual(kontrola(w, "wartosci_wrazliwe")["status"], "OK")
+
+    def test_krotki_znacznik_tez_nie_jest_zmyslona_wartoscia(self):
+        przed = "Adopcja wzrosla w calej branzy."
+        po = "Adopcja wzrosla [do uzupelnienia: zrodlo]."
+        self.assertEqual(kontrola(A.audyt(przed, po), "wartosci_wrazliwe")["status"], "OK")
+
     def test_formulka_czatbota_blokuje(self):
         po = TEKST + " Mam nadzieję, że to pomoże!"
         self.assertEqual(kontrola(A.audyt(TEKST, po), "slady_narzedzia")["status"], "BLOKADA")
@@ -227,6 +239,29 @@ class LimitSkrocenia(unittest.TestCase):
     def test_limit_jest_parametrem(self):
         po = " ".join(f"slowo{i}" for i in range(50))
         w = A.audyt(self.PRZED, po, limit_skrocenia=0.6)
+        self.assertEqual(kontrola(w, "limit_skrocenia")["status"], "OK")
+
+
+class ZnalezioneWPomiarze(unittest.TestCase):
+    """Falszywe alarmy znalezione na zestawach zaslepionych (2026-10-13), odtworzone syntetycznie."""
+
+    def test_skrot_wewnatrz_slowa_to_nie_przepis(self):
+        przed = "Udany start. 5 zespolow ruszylo od razu."
+        po = "Udany start: 5 zespolow ruszylo od razu."
+        self.assertEqual(kontrola(A.audyt(przed, po), "wartosci_wrazliwe")["status"], "OK")
+
+    def test_przypis_numerowany_to_nie_pole_do_wypelnienia(self):
+        t = "Zgodnie z przypisem [1] termin zostal zawieszony."
+        self.assertEqual(kontrola(A.audyt(t, t), "slady_narzedzia")["status"], "OK")
+
+    def test_usuniecie_otoczki_czatu_nie_liczy_sie_do_limitu_skrocenia(self):
+        tresc = ("Wykonawca musi dostarczyc towar do magazynu Zamawiajacego w terminie 14 dni od zamowienia. "
+                 "Opoznienie uprawnia Zamawiajacego do kary umownej 0,5% ceny za kazdy tydzien. "
+                 "Zamawiajacy moze odrzucic towar niezgodny ze specyfikacja w terminie 7 dni od dostawy.")
+        otwarcie = "Oto poprawiona, przejrzysta i profesjonalna wersja klauzuli, o którą prosiłeś do umowy."
+        zamkniecie = ("Mam nadzieję, że to pomoże w negocjacjach! Daj znać, jeśli chcesz zmienić ton. "
+                      "Mogę też przygotować krótszą wersję do podsumowania.")
+        w = A.audyt(f"{otwarcie} {tresc} {zamkniecie}", tresc)
         self.assertEqual(kontrola(w, "limit_skrocenia")["status"], "OK")
 
 

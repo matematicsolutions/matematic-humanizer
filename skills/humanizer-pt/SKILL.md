@@ -1,14 +1,17 @@
 ---
 name: humanizer-pt
-version: 1.1.0
+version: 1.2.0
 description: |
   Remove padrões de texto gerado por IA do português e faz o texto soar natural.
   Adaptação brasileira de blader/humanizer (MIT), irmã de humanizer-pl e humanizer-en.
   Use para editar conteúdo em português: páginas de site, artigos,
-  posts, documentação, llms.txt. Detecta: inflação de importância, vocabulário-slop
+  posts, e-mails, documentação, llms.txt. Detecta: inflação de importância, vocabulário-slop
   em português, gerundismo, "mesmo" pronominal, fuga da cópula, atribuição vaga,
   travessão, regra de três, hedging, artefatos de chatbot, decalques do inglês,
-  troca de variante pt-BR/pt-PT e as assinaturas estatísticas que detectores medem.
+  troca de variante pt-BR/pt-PT, ritmo uniforme e sintaxe nominal. Intervenção mínima:
+  muda palavras, não conteúdo - uma verificação pós-edição (script stdlib) protege
+  datas, valores, dispositivos legais, números de processo, citações, a força da
+  norma, a certeza e os termos jurídicos. Contratos e peças: modo registro jurídico.
 license: MIT
 author: Wiesław Mazur / MateMatic Solutions
 attribution:
@@ -20,7 +23,7 @@ attribution:
     Taxonomia e estrutura vindas do humanizer original, que por sua vez se apoia em
     Wikipedia "Signs of AI writing" (WikiProject AI Cleanup). Esta versão traz listas
     de palavras em português, tipografia portuguesa, padrões próprios do idioma
-    (gerundismo, "mesmo" pronominal, decalques, variante) e a seção estatística.
+    (gerundismo, "mesmo" pronominal, decalques, variante) e a seção de ritmo e sintaxe.
 ---
 
 # humanizer-pt: remover padrões de IA do texto em português
@@ -37,12 +40,38 @@ Algumas regras abaixo são ESTILO DA CASA, não gramática: o travessão (#17), 
 
 ## Sua tarefa
 
-1. **Detectar os padrões** da lista abaixo.
-2. **Reescrever os trechos problemáticos.**
-3. **Preservar o sentido.**
-4. **Preservar a voz** do autor; sem indicação, siga o estilo da casa.
-5. **Dar alma** - não basta tirar o ruim, é preciso pôr caráter.
-6. **Revisão final**: pergunte "o que aqui ainda entrega IA?", responda curto, depois corrija o resto.
+1. **Inventário antes** - antes de mudar uma palavra, liste o que o texto carrega (seção "O que não pode mudar").
+2. **Decida o que fica** - frases boas, voz do autor, termos. Nem tudo que bate com um padrão é defeito.
+3. **Detecte os padrões** da lista abaixo. Reaja a acúmulo e repetição, não a um sinal isolado.
+4. **Reescreva o mínimo** - só os trechos que de fato incomodam, com a menor mudança que resolve.
+5. **Preserve a voz** do autor; sem indicação, siga o estilo da casa.
+6. **Verifique depois** - compare o resultado com o inventário (seção "Verificação pós-edição"). BLOQUEIO = o texto não está pronto.
+
+**Texto sem mudança é resultado válido.** Quando o texto está bom, devolva-o sem mudança e diga isso. Mudar por mudar não conserta nada, e cada intervenção é uma chance de alterar o conteúdo.
+
+## O que não pode mudar
+
+Revisão muda palavras e ordem, nunca o conteúdo. Antes de reescrever, liste em poucas linhas:
+
+- **Valores:** datas, valores monetários, percentuais, prazos em dias, números de dispositivos, números de processo, identificadores, nomes de pessoas, empresas e órgãos, citações literais. Ficam ao pé da letra (pode mudar o formato da data, não a data).
+- **Força da norma:** quem deve, quem pode, a quem é vedado, o que é recomendação. "Pode" não vira "deve"; "não pode" não vira "não deveria".
+- **Certeza:** o que é certo e o que é preliminar ou provável. "Provavelmente", "preliminarmente", "ainda não se sabe" são conteúdo, não enchimento - ficam. Pode desbastar hedging empilhado (#27); não pode transformar suposição em fato.
+- **Razões e condições:** "porque", "se", "salvo se", "desde que" - a causa e a condição sobrevivem à reescrita.
+- **Quem faz o quê:** o sujeito da ação e o compromisso. "Reconhecemos" não vira "pedimos desculpas"; "vamos verificar" não vira "verificamos". O que é vago você não deixa mais vago.
+- **Termos jurídicos e definidos:** não têm sinônimo. Arras não são adiantamento, resolução não é resilição, garantia contratual não é a responsabilidade por vício redibitório, nulidade não é anulabilidade, multa não é indenização, prescrição não é decadência. Onde o texto usa um termo com sentido próprio (por exemplo "rescisão"), ele fica como está. Termo definido no texto (doravante "CONTRATANTE") volta exatamente nessa forma, mesmo repetido. Expressões legais ("boa-fé objetiva", "caso fortuito ou força maior") não são slop, mesmo parecendo a lista do #7.
+
+**Fato ausente é marcador, não palpite.** Quando a frase pedir um dado que o texto não traz (data, fonte, número), escreva `[a completar: ...]` ou deixe a frase geral. Não preencha campos vazios (`[valor]`, `[data da assinatura]`) com valor inventado.
+
+## Registro jurídico - quando NÃO reescrever
+
+Contrato, regulamento, petição, parecer, decisão e minuta de norma têm regras próprias, que os padrões de prosa estragam:
+
+- termos definidos se repetem de propósito - não é repetição a cortar (#13 não se aplica);
+- a voz passiva na exposição do direito é correta ("o contrato considera-se celebrado") - #14 não se aplica;
+- incisos, alíneas e itens são estrutura, não lista a transformar em prosa (#22 não se aplica);
+- redação legal e fórmulas processuais ficam literais, mesmo quando pesadas.
+
+Nesse registro você tira só artefatos de chatbot (#23-#25), enchimento evidente (#26) e tipografia (#18-#20). O resto você APONTA como observação, não reescreve. Para revisar contratos e peças por inteiro, use uma ferramenta de redação jurídica, se tiver.
 
 ## Onde entra no fluxo
 
@@ -100,6 +129,11 @@ fundamental" é termo constitucional; "proporcional" em contexto de RGPD/GDPR ve
 princípio da proporcionalidade. Nesses casos a palavra nomeia a coisa e fica. Marque como
 slop só quando ela estiver ali para inflar, não para nomear.
 
+**Um sinal isolado não é problema.** Gente escreve essas palavras também, inclusive juízes e
+legisladores. Reaja quando várias palavras diferentes da lista se acumulam no mesmo trecho ou
+quando a palavra não diz nada na frase. Em texto curto (post, comentário) conte tipos diferentes
+de padrão, não ocorrências de uma palavra.
+
 ### 8. Fuga da cópula (evitar "é"/"são"/"tem")
 **Sinais:** constitui, configura-se como, apresenta-se como, caracteriza-se por, possui, dispõe de, conta com.
 **Ruim:** A galeria constitui espaço expositivo e possui mais de 300 metros quadrados.
@@ -128,8 +162,8 @@ slop só quando ela estiver ali para inflar, não para nomear.
 **Ruim:** O protagonista enfrenta obstáculos. O personagem principal supera barreiras. A figura central triunfa.
 **Bom:** O protagonista enfrenta obstáculos, mas no fim vence.
 
-### 14. Voz passiva e sujeito oculto
-**Problema:** "os resultados são salvos automaticamente", "não é necessário arquivo de configuração" escondem quem age.
+### 14. Voz passiva que esconde quem age
+**Problema:** "os resultados são salvos automaticamente", "não é necessário arquivo de configuração" escondem quem age. Mude só quando a falta do sujeito deixa obscuro quem faz. A voz passiva em si não é erro, e na exposição do direito costuma ser a forma correta.
 **Ruim:** Os resultados são preservados automaticamente. Não é exigido arquivo de configuração.
 **Bom:** O sistema salva os resultados sozinho. Você não precisa de arquivo de configuração.
 
@@ -148,7 +182,7 @@ slop só quando ela estiver ali para inflar, não para nomear.
 ## TIPOGRAFIA E ESTILO
 
 ### 17. Travessão (regra da casa, não de gramática)
-**Atenção:** em português o travessão (—) é pontuação legítima, sobretudo em diálogo e aposto. **O estilo da casa mesmo assim proíbe** e manda usar só o hífen "-", igual em humanizer-pl (um guia de estilo do autor pode mudar isso). Reescreva com vírgula, ponto ou parênteses; onde o travessão marcaria diálogo, use aspas.
+**Atenção:** em português o travessão (—) é pontuação legítima, sobretudo em diálogo e aposto, e um travessão isolado não é sinal de IA. **O estilo da casa mesmo assim proíbe** e manda usar só o hífen "-", igual em humanizer-pl (um guia de estilo do autor pode mudar isso). Reescreva com vírgula, ponto ou parênteses; onde o travessão marcaria diálogo, use aspas.
 
 ### 18. Aspas
 Em português usam-se aspas duplas retas "..." ou as angulares «...» em pt-PT. No estilo da casa: **aspas duplas retas**, coerentes no texto inteiro. Aspas curvas tipográficas coladas de chat são sinal de origem, troque por retas.
@@ -212,12 +246,12 @@ Tire emoji de título e de item de lista. Exceção: uso de marca consciente e e
 
 ---
 
-## ASSINATURAS ESTATÍSTICAS (o que detectores medem)
+## RITMO E SINTAXE
 
-Detector de texto de IA não lê "sentido", mede traços linguísticos. A metodologia híbrida de Wołoszyk e Domaszk (MultiLingual, set. 2025) pesa mais léxico e morfologia. **Segurança de marca:** não se trata de driblar detector - texto humano tem essas propriedades por natureza, então melhorá-las melhora a qualidade.
+Esta seção trata do texto inteiro, não de palavras soltas. São regras de redação, não um jeito de passar por detector: este skill não promete "passar" em teste nenhum, e esse não é o objetivo. Não acrescente ruído artificial - erro de digitação plantado, gíria forçada, pontuação desleixada de propósito.
 
-### 31. Variação do tamanho das frases
-Humano mistura frase curtíssima com frase longa e encaixada. IA mantém ritmo uniforme. **Regra:** depois de uma frase longa, ponha uma curta e seca. Não nivele o parágrafo.
+### 31. Ritmo uniforme das frases
+Texto de modelo costuma ter parágrafo de frases com o mesmo tamanho e a mesma construção. **Regra:** não force variação de tamanho. O ritmo decorre do conteúdo: frase curta onde a ideia é curta, frase longa onde uma condição ou exceção precisa ficar de pé. Parágrafo uniforme é sinal para ler em voz alta, não ordem para picar frases.
 
 ### 32. Verbos e advérbios no lugar de substantivos e adjetivos
 Texto de IA é nominal; humano é verbal. **Corte nominalizações:** "a realização da análise" → "analisar", "a efetivação do cadastro" → "cadastrar", "com vistas à obtenção" → "para obter". Encurte fileiras de adjetivos antes do substantivo.
@@ -226,7 +260,7 @@ Texto de IA é nominal; humano é verbal. **Corte nominalizações:** "a realiza
 IA empilha palavras de conteúdo e gira num vocabulário estreito. **Regra:** a frase precisa respirar; não repita o mesmo substantivo-chave em ciclo, mas também não troque por sinônimo mecanicamente (isso cai no nº 13).
 
 ### 34. Faixa emocional
-IA puxa para tom uniforme e positivo. **Regra:** deixe entrar ceticismo e distância fria. "Aqui eu vejo risco" soa humano; "um passo empolgante" soa IA.
+IA puxa para tom uniforme e positivo. **Regra:** deixe entrar ceticismo e distância fria onde o autor os expressou - não acrescente opinião que o texto não tem. "Aqui eu vejo risco" soa humano; "um passo empolgante" soa IA.
 
 ### 35. Transições mecânicas
 **Sinais:** Além disso, Ademais, Outrossim, Dessa forma, Por conseguinte, Em suma, Vale ressaltar que (como moldura automática de parágrafo).
@@ -273,20 +307,48 @@ Tirar padrão de IA é metade do trabalho. Texto estéril entrega IA do mesmo je
 
 **Sinais de texto sem alma:** toda frase do mesmo tamanho; nenhuma opinião; nenhuma incerteza; nenhuma primeira pessoa onde caberia; nenhum humor; lê como release de imprensa.
 
-**Como dar voz (estilo da casa, quando o autor não deu o seu):** precisão factual em vez de entusiasmo; tom sóbrio com ironia contida; ritmo variado; concreto em vez de genérico; "nós" onde for sincero; admitir complexidade em vez de fingir certeza.
+**Como dar voz (estilo da casa, quando o autor não deu o seu):** precisão factual em vez de entusiasmo; tom sóbrio com ironia contida; concreto em vez de genérico; "nós" onde for sincero; admitir complexidade em vez de fingir certeza. A voz se constrói com o que o autor escreveu - não acrescente opinião, exemplo nem fato que não estavam no texto.
+
+## Verificação pós-edição
+
+Depois da revisão, compare o original com a versão final. Se você puder rodar comandos, grave os dois textos em arquivos e rode o script que acompanha o skill (só biblioteca padrão, sem rede):
+
+```
+python scripts/auditoria_pos_edicao.py antes.txt depois.txt [--corte-maximo 0.3] [--protegidos "termo1;termo2"]
+```
+
+O script confere valores (dispositivos, datas, números de processo, números e valores, citações, campos a preencher), o perfil deôntico (obrigação, proibição, permissão, recomendação), a certeza, vestígios de chat, termos jurídicos e definidos (inclusive em CAIXA ALTA, como CONTRATANTE) e o limite de corte. Resultado: OK / ALERTA / BLOQUEIO, com todas as verificações listadas, inclusive as aprovadas. O limite de corte (30% das palavras por padrão) é teto, não meta.
+
+- **BLOQUEIO** - não entregue o texto como pronto. Corrija a versão final e rode de novo, ou diga no relatório por que a mudança é intencional (por exemplo, o autor pediu para tirar um valor).
+- **ALERTA** - veja os pontos indicados e diga no relatório o que fez com eles.
+- Se não puder rodar o script, faça a mesma verificação à mão: percorra o inventário item por item e marque se cada um sobreviveu.
+
+O script não enxerga tudo (nomes de pessoas, mudança de quem faz o quê, afirmação acrescentada sem números) - esses itens do inventário você confere sempre.
+
+## Processo
+
+1. Leia o texto com atenção. Defina o gênero: prosa, documentação (#36-#42) ou registro jurídico.
+2. Faça o inventário: valores, força das normas, certeza, razões e condições, quem faz o quê, termos.
+3. Identifique os padrões e decida quais realmente pedem mudança. Sinal isolado costuma ficar.
+4. Reescreva só esses trechos, com a menor mudança suficiente.
+5. Confira se o texto soa natural lido em voz alta, usa os dados concretos do original e usa construções simples (é/são/tem) onde cabe.
+6. Pergunte: "o que aqui ainda entrega IA?" - responda curto e corrija o resto.
+7. Verificação pós-edição. BLOQUEIO devolve você ao passo 4.
 
 ## Formato de saída
 
-1. Rascunho reescrito
-2. "O que aqui ainda entrega IA?" (pontos curtos)
-3. Versão final
-4. Resumo curto das mudanças
+1. Versão final (ou o texto sem mudança, com uma frase dizendo que não precisava de revisão)
+2. Mudado: pontos curtos, o quê e por quê
+3. Encontrado e mantido de propósito: padrões que ficaram e por quê (termo jurídico, sinal isolado, voz do autor)
+4. Resultado da verificação pós-edição (status e verificações que não deram OK) ou resultado da verificação manual
+5. Marcadores `[a completar: ...]` e campos vazios que uma pessoa precisa preencher
 
 ## Referência
 
-Taxonomia e estrutura de [blader/humanizer](https://github.com/blader/humanizer) (MIT), que se apoia em [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). Seção estatística baseada em W. Wołoszyk e M. Domaszk, "Detecting AI-Generated Content: A hybrid linguistic approach", MultiLingual, setembro de 2025. Padrões próprios do português (gerundismo, "mesmo" pronominal, decalques, variante) e o modo documentação são desta versão.
+Taxonomia e estrutura de [blader/humanizer](https://github.com/blader/humanizer) (MIT), que se apoia em [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). As categorias de "Ritmo e sintaxe" (#31-#35) nasceram de W. Wołoszyk e M. Domaszk, "Detecting AI-Generated Content: A hybrid linguistic approach", MultiLingual, setembro de 2025; desde a v1.2.0 são regras de redação, sem números de pesquisa sobre detecção. Padrões próprios do português (gerundismo, "mesmo" pronominal, decalques, variante), o modo documentação, o inventário com verificação pós-edição e o modo registro jurídico são desta versão.
 
 ## Registro de mudanças
 
+- v1.2.0 (2026-10-13) - intervenção mínima: inventário antes da reescrita (valores, força das normas, certeza, razões, quem faz o quê, termos), "texto sem mudança é resultado válido", seção "O que não pode mudar" e modo registro jurídico. Nova verificação `scripts/auditoria_pos_edicao.py` (stdlib, testes em `tests/`): valores sensíveis, perfil deôntico, certeza, vestígios de chat, termos protegidos e definidos, limite de corte; OK/ALERTA/BLOQUEIO. #7, #14 e #17 reagem a acúmulo, não a sinal isolado; #31-#35 como regras de redação, sem números nem promessas sobre detectores. "Alma e caráter" não pede mais opinião que o autor não expressou. Formato de saída com "encontrado e mantido de propósito".
 - v1.1.0 (2026-10-05) - neutralização para publicação fora da MateMatic: travessão, aspas e voz separados como ESTILO DA CASA, com prioridade para o guia de estilo do autor; removidas referências internas. Padrões de slop sem mudança.
 - v1.0.0 (2026-08-23) - primeira versão. Irmã de humanizer-pl 1.2.0 e humanizer-en 2.7.0: mesma estrutura, listas em português, quatro padrões próprios do idioma, tipografia com a regra da casa sobre travessão.

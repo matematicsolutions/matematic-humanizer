@@ -1,6 +1,6 @@
 ---
 name: humanizer-pl
-version: 1.5.0
+version: 1.5.1
 description: |
   Usuwa wzorce AI-slop z polskiego tekstu - sprawia, ze czyta sie naturalnie i ludzko.
   Polska adaptacja blader/humanizer (MIT). Uzywaj do edycji/przegladu polskich tresci:
@@ -401,6 +401,7 @@ Polska adaptacja blader/humanizer (https://github.com/blader/humanizer, MIT). Or
 
 ## Dziennik szlifu
 
+- v1.5.1 (2026-10-13) - bramka, cztery falszywe alarmy znalezione przy pomiarze edycji EN i PT: znacznik `[do uzupelnienia: ...]` nie jest juz liczony jako nowa wartosc, ale dalej blokuje gotowosc tekstu, takze dluzszy niz 60 znakow; skrot przepisu musi zaczynac slowo (koncowka zwyklego wyrazu przed liczba to nie przepis); pole do wypelnienia musi miec litere (przypis "[1]" to nie pole); limit skrocenia liczony bez zdan otoczki czatu, zeby nie oplacalo sie zostawiac waty. Instrukcja skilla bez zmian.
 - v1.5.0 (2026-10-13) - minimalna ingerencja: inwentarz przed przepisaniem (wartosci, sila normy, pewnosc, powody, kto co robi, terminy), "brak zmiany to poprawny wynik", sekcja "czego nie wolno zmienic", tryb rejestru prawniczego. Nowa bramka `scripts/audyt_po_przepisaniu.py` (stdlib, testy w `tests/`): wartosci wrazliwe, profil deontyczny, pewnosc, slady czatu, terminy chronione i zdefiniowane, limit skrocenia; trojstan OK/UWAGI/BLOKADA. #7, #13 i #14 reaguja na skupienie, nie na pojedynczy sygnal. #30-#34 bez liczb i obietnic o detektorach, bez wymuszania rytmu. Format wyjscia z sekcja "znalezione, swiadomie niezmienione".
 - v1.4.1 (2026-10-05) - z `allowed-tools` usuniete Write i Edit: skill nie zatwierdza z gory zapisu plikow, Claude pyta uzytkownika o zgode przy kazdej zmianie pliku (uwaga skanera katalogu Claude ALLOWED_TOOLS_UNSCOPED_WRITE).
 - v1.4.0 (2026-10-05) - neutralizacja pod publikacje poza MateMatic: reguly domowe (jedna kreska, glos) wydzielone jako STYL DOMOWY z pierwszenstwem przewodnika stylu autora; usuniete odwolania do wewnetrznych skilli i notatek. Wzorce slop bez zmian.

@@ -5,9 +5,9 @@ artefacts. This plugin removes them and leaves plain, precise prose, in three la
 
 | Skill | Language | Language-specific layer |
 |---|---|---|
-| `humanizer-en` | English | English word lists and typography |
+| `humanizer-en` | English | English word lists and typography, legal-register mode, post-edit fact check |
 | `humanizer-pl` | Polish | Polish slop vocabulary, calques from English, Polish typography, 2026 spelling reform, legal-register mode, post-edit fact check |
-| `humanizer-pt` | Portuguese (pt-BR default, pt-PT on request) | gerundism, pronominal "mesmo", calques, variant mixing |
+| `humanizer-pt` | Portuguese (pt-BR default, pt-PT on request) | gerundism, pronominal "mesmo", calques, variant mixing, legal-register mode, post-edit fact check |
 
 All three share one taxonomy, built on Wikipedia's "Signs of AI writing". Claude picks the
 edition that matches the text. Each skill instructs Claude to rewrite wording and keep the
@@ -44,11 +44,12 @@ The skills have no connectors and make no network calls of their own. They work 
 text in your conversation, which Claude processes the same way as any other message you
 send it.
 
-The Polish edition ships one local check, `scripts/audyt_po_przepisaniu.py` (Python standard
-library only). It compares the text before and after editing and reports whether dates,
-amounts, legal references, the force of obligations and legal terms survived. It reads the
-two files you point it at and nothing else, writes nothing and opens no connections. Claude
-Code asks before running it; where scripts cannot run, the skill does the same check by hand.
+Each edition ships one local check (Python standard library only): `post_edit_audit.py`
+(English), `audyt_po_przepisaniu.py` (Polish) and `auditoria_pos_edicao.py` (Portuguese). It
+compares the text before and after editing and reports whether dates, amounts, legal
+references, the force of obligations and legal terms survived. It reads the two files you
+point it at and nothing else, writes nothing and opens no connections. Claude Code asks before
+running it; where scripts cannot run, the skill does the same check by hand.
 
 ## Licence
 

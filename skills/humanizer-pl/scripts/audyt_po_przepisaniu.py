@@ -59,9 +59,11 @@ def slowa(t: str) -> list:
 # --- wartosci wrazliwe --------------------------------------------------------------------
 
 RE_CYTAT = re.compile(r"„([^”\"]{2,400})[”\"]|\"([^\"„”]{2,400})\"|»([^«]{2,400})«")
-RE_POLE = re.compile(r"\[[^\]\n]{1,60}\]|\{\{[^}\n]{1,60}\}\}|<[^<>\n]{1,40}>")
+RE_ZNACZNIK = re.compile(r"\[do uzupe(?:ł|l)nienia:[^\]\n]*\]", re.I)  # znacznik skilla: nie wartosc, ale tekst niegotowy
+# pole do wypelnienia ma litere: przypis "[1]" i "[2026]" to nie pola
+RE_POLE = re.compile(r"\[(?=[^\]\n]*[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])[^\]\n]{1,60}\]|\{\{[^}\n]{1,60}\}\}|<[^<>\n]{1,40}>")
 RE_PRZEPIS = re.compile(
-    r"(?:art\.|§|ust\.|pkt)\s*\d+\w*(?:\^?\d+)?"
+    GR + r"(?:art\.|§|ust\.|pkt)\s*\d+\w*(?:\^?\d+)?"
     r"(?:\s*(?:§|ust\.|pkt|lit\.|zd\.|zdanie)\s*\d*\w*(?:\^?\d+)?)*", re.I)
 RE_SYGN = re.compile(rf"{GR}[IVXL]{{1,5}}\s+[A-Z][A-Za-z]{{0,5}}(?:\s+[A-Z][a-z]{{0,3}})?\s+\d+/\d{{2,4}}{GP}")
 RE_ECLI = re.compile(r"ECLI:[A-Z]{2}:[A-Z0-9.]+:\d{4}:[A-Z0-9.]+")
@@ -80,7 +82,7 @@ def _maskuj(t: str, rx, znalezione: list, etykieta, kanon=lambda m: norm(m.group
 
 def wartosci(t: str) -> Counter:
     """Multizbior wartosci, ktorych redakcja nie moze zgubic ani dopisac."""
-    t = norm(t)
+    t = RE_ZNACZNIK.sub(" ", norm(t))
     zn = []
     t = _maskuj(t, RE_CYTAT, zn, "cytat",
                 lambda m: norm(next(g for g in m.groups() if g is not None)))
@@ -278,7 +280,8 @@ def audyt(przed: str, po: str, limit_skrocenia: float = 0.30, chronione=()) -> d
         kontrole.append(_k("pewnosc", "OK", f"znaczniki niepewnosci {na_}->{nb_}"
                            + (" (przerzedzone asekuranctwo, niepewnosc zostala)" if nb_ < na_ else "")))
 
-    slady = [m.group(0) for m in RE_POLE.finditer(b)]
+    slady = [m.group(0) for m in RE_ZNACZNIK.finditer(b)]
+    slady += [m.group(0) for m in RE_POLE.finditer(RE_ZNACZNIK.sub(" ", b))]
     slady += [m.group(0).strip() for m in FORMULKI_STARTU.finditer(b)]
     slady += [m.group(0) for m in FORMULKI.finditer(b)]
     slady += [m.group(0) for m in OFERTA.finditer(b)]
@@ -312,7 +315,9 @@ def audyt(przed: str, po: str, limit_skrocenia: float = 0.30, chronione=()) -> d
     else:
         kontrole.append(_k("terminy_chronione", "OK", "terminy bez zmian"))
 
-    na, nb = len(slowa(a)), len(slowa(b))
+    # liczone bez otoczki czatu: wyciecie "Oto..." / "Mam nadzieje..." to nie ubytek, a liczenie
+    # go popycha redaktora do zostawiania waty tylko po to, zeby zmiescic sie w limicie
+    na, nb = len(slowa(ta)), len(slowa(tb))
     ubytek = (na - nb) / na if na else 0.0
     if ubytek > limit_skrocenia:
         krotki = na < KROTKI_TEKST
